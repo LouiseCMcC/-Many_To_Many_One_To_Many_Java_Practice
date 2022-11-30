@@ -22,39 +22,18 @@ public class File {
     @Column(name = "size")
     private String size;
 
-    @ManyToOne
-    @JoinColumn(name = "person_id", nullable = false)
-    private Person person;
+    @OneToOne
+    @JoinColumn(name = "folder_id", nullable = false)
+    private Folder folder;
 
-    @ManyToMany
-    @JsonBackReference
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    @JoinTable(
-            name = "files_folders",
-            joinColumns = {@JoinColumn(
-                    name = "file_id",
-                    nullable = false,
-                    updatable = false
-            )
-
-            },
-            inverseJoinColumns = {@JoinColumn(
-                    name = "folder_id",
-                    nullable = false,
-                    updatable = false
-            )
-
-            }
-    )
-    private List<Folder> folders;
-
-    public File(String name, String extension, String size, Person person) {
+    public File(String name, String extension, String size, Folder folder) {
         this.name = name;
         this.extension = extension;
         this.size = size;
-        this.person = person;
-        this.folders = new ArrayList<Folder>();
+        this.folder = folder;
     }
+
+    public File (){}
 
     public Long getId() {
         return id;
@@ -88,24 +67,12 @@ public class File {
         this.size = size;
     }
 
-    public Person getPerson() {
-        return person;
+    public Folder getFolder() {
+        return folder;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
-    }
-
-    public List<Folder> getFolders() {
-        return folders;
-    }
-
-    public void setFolders(List<Folder> folders) {
-        this.folders = folders;
-    }
-
-    public void addFolder(Folder folder){
-        this.folders.add(folder);
+    public void setFolder(Folder folder) {
+        this.folder = folder;
     }
 }
 
